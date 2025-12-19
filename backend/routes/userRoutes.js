@@ -1,5 +1,5 @@
 import express from 'express';
-import User from '../models/User'
+import User from '../models/User.js'
 
 const router = express.Router();
 
@@ -15,3 +15,6 @@ router.get('/:phone',async(req,res)=>{
         res.status(500).json({message: error.message})
     }
 })
+
+
+export default router;
