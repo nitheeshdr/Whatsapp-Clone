@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../models/User.js'
 import multer from 'multer';
 import fs from 'fs';
+import path from 'path';
 
 
 const router = express.Router();
@@ -58,9 +59,11 @@ router.put("/:id" ,upload.single('profileImage'), async (req,res)=>{
         }
 
         if (req.file) {
+
+            const OldImagePath = path.join(process.cwd(),user.profileImage) 
             if (user.profileImage) {
-                if (fs.existsSync(user.profileImage)) {
-                    fs.unlinkSync(user.profileImage)
+                if (fs.existsSync(OldImagePath)) {
+                    fs.unlinkSync(OldImagePath)
                 }
             }
         }
