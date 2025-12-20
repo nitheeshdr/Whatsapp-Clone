@@ -1,12 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js"; // ← default import
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
 
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/chatappdb")
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.log(err));
 
