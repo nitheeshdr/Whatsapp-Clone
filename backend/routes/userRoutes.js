@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/User.js'
 import multer from 'multer';
+import fs from 'fs';
 
 
 const router = express.Router();
@@ -34,7 +35,7 @@ router.post("/", upload.single("profileImage") ,async (req,res)=>{
     const {phone,name} = req.body;
 
    try {
-     let user = await User.findOne({phone: req.params.phone})
+     let user = await User.findOne({phone:phone})
      if (user) {
         return res.status(400).json({message: "User already exists!"})
      }
@@ -46,8 +47,39 @@ router.post("/", upload.single("profileImage") ,async (req,res)=>{
    } catch (error) {
     res.status(500).json({error: error.message })
    }
+})
+router.put("/:id" ,upload.single('profileImage'), async (req,res)=>{
+    const {name} = req.body;
 
+    try {
+        let user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({message: "user not found"})
+        }
+
+        if (req.file) {
+            if (user.profileImage) {
+                if (fs.existsSync(user.profileImage)) {
+                    fs.unlinkSync(user.profileImage)
+                }
+            }
+        }
+
+        user.profileImage = `uploads/${req.file.filename}`
+
+        if (name) {
+            user.name = name;
+
+        }
+        await user.save()
+        res.json(user)
+
+
+    } catch (error) {
+        res.status(500).json({error: error.message })
+    }
 
 })
+
 
 export default router;
