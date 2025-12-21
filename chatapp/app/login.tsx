@@ -31,7 +31,7 @@ const LoginScreen = () => {
       onChangeText={setPhone}
       />
 
-      <TouchableOpacity className={`p-4 w-full rounded-full ${isValidNumber ? "bg-green-500 mt-6" : "bg-gray-300"}`} 
+      <TouchableOpacity className={`p-4 w-full rounded-full ${isValidNumber ? "bg-green-600 mt-6" : "bg-gray-300"}`} 
       disabled={!isValidNumber}
       onPress={handleNext}>
         <Text className='text-white text-center font-bold text-lg '>Next</Text>
